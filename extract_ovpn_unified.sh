@@ -80,6 +80,11 @@ mv $infile".new" $infile
 
 if [ ! -z $add_pass ]; then
   echo "Adding passphrase to private key:"
+  if [ -z `which openssl` ]; then
+    echo "This script needs openssl to be installed for adding passphrases."
+    echo "I'm leaving the private key unaltered"
+    exit
+  fi
   openssl rsa -des3 -in $base_name"_key.pem" -out newkey.pem
   mv $base_name"_key.pem" $base_name"_key.pem.orig"
   mv newkey.pem $base_name"_key.pem"
